@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\IncidenciaRepository;
@@ -16,19 +15,21 @@ class Incidencia
     #[ORM\Column(length: 255)]
     private ?string $titulo = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $fechaCreacion = null;
+    #[ORM\Column(type:"datetime")] // Cambiado a tipo datetime
+    private ?\DateTimeInterface $fechaCreacion = null; // Cambiado a tipo \DateTimeInterface
 
     #[ORM\Column(length: 255)]
     private ?string $estado = null;
 
-    #[ORM\ManyToOne(inversedBy: 'incidencias')]
+    #[ORM\ManyToOne(inversedBy: 'incidencia', cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
 
-    #[ORM\ManyToOne(inversedBy: 'incidencia')]
+    #[ORM\ManyToOne(inversedBy: 'incidencia', cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Cliente $cliente = null;
+
+    // Getters y setters...
 
     public function getId(): ?int
     {
@@ -40,19 +41,19 @@ class Incidencia
         return $this->titulo;
     }
 
-    public function setTitulo(string $titulo): static
+    public function setTitulo(string $titulo): self
     {
         $this->titulo = $titulo;
 
         return $this;
     }
 
-    public function getFechaCreacion(): ?string
+    public function getFechaCreacion(): ?\DateTimeInterface
     {
         return $this->fechaCreacion;
     }
 
-    public function setFechaCreacion(string $fechaCreacion): static
+    public function setFechaCreacion(?\DateTimeInterface $fechaCreacion): self
     {
         $this->fechaCreacion = $fechaCreacion;
 
@@ -64,7 +65,7 @@ class Incidencia
         return $this->estado;
     }
 
-    public function setEstado(string $estado): static
+    public function setEstado(string $estado): self
     {
         $this->estado = $estado;
 
@@ -76,7 +77,7 @@ class Incidencia
         return $this->usuario;
     }
 
-    public function setUsuario(?Usuario $usuario): static
+    public function setUsuario(?Usuario $usuario): self
     {
         $this->usuario = $usuario;
 
@@ -88,7 +89,7 @@ class Incidencia
         return $this->cliente;
     }
 
-    public function setCliente(?Cliente $cliente): static
+    public function setCliente(?Cliente $cliente): self
     {
         $this->cliente = $cliente;
 

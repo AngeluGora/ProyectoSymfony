@@ -1,20 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IncidenciaController!{% endblock %}
+{% block title %}Lista de Incidencias{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Lista de Incidencias</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/html/ProyectoSymfony/ProyectoSymfony/src/Controller/IncidenciaController.php</code></li>
-        <li>Your template at <code>/var/www/html/ProyectoSymfony/ProyectoSymfony/templates/incidencia/index.html.twig</code></li>
-    </ul>
-</div>
+    {% if incidencias is empty %}
+        <p>No hay incidencias registradas.</p>
+    {% else %}
+        <ul>
+            {% for incidencia in incidencias %}
+                <li>
+                    {{ incidencia.titulo }} - {{ incidencia.fechaCreacion|date('d/m/Y H:i') }}
+                    <a href="{{ path('app_incidencia_show', {'id': incidencia.id}) }}">Ver Detalles</a>
+                    <a href="{{ path('app_incidencia_edit', {'id': incidencia.id}) }}">Editar</a>
+                    <a href="{{ path('app_incidencia_delete', {'id': incidencia.id}) }}">Eliminar</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    <a href="{{ path('app_incidencia_new') }}">Crear Nueva Incidencia</a>
 {% endblock %}
